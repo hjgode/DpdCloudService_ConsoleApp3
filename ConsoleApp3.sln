@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.34112.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp3", "ConsoleApp3\ConsoleApp3.csproj", "{C14FA6F8-6ADF-4E50-A9A3-06C1024D17A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DpdCloudServiceTest", "ConsoleApp3\DpdCloudServiceTest.csproj", "{C14FA6F8-6ADF-4E50-A9A3-06C1024D17A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
