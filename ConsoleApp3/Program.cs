@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +9,34 @@ namespace ConsoleApp3
     class Program
     {
         static void Main(string[] args)
+        {
+            MyDPDCloudService myDPDCloudService = new MyDPDCloudService();
+            //MyDPDCloudService.doTest();
+
+            DPDCloudService.AddressType address = MyDPDCloudService.MyAddress("Hellweg Baumarkt", "Musterstrasse", "21b", "12345", "Musterstadt");
+
+            DPDCloudService.ParcelDataType parcelData = MyDPDCloudService.MyParcelData("Filiale 123", "123/1", 19m, "Filaile 123/1");
+            DPDCloudService.ParcelDataType parcelData2 = MyDPDCloudService.MyParcelData("Filiale 123", "123/2", 18m, "Filaile 123/2");
+
+            string sParcelNo = "";
+            string sErr = "";
+
+            List<DPDCloudService.ParcelDataType> parcelDataList = new List<DPDCloudService.ParcelDataType>();
+            parcelDataList.Add(parcelData);
+            parcelDataList.Add(parcelData2);
+
+            if (MyDPDCloudService.setOrter(address, parcelDataList.ToArray(), ref sParcelNo, ref sErr))
+            {
+                //success
+                System.Diagnostics.Debug.WriteLine("Success: see " + sParcelNo + ".pdf");
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("ERR: " + sErr);
+            }
+        }
+
+        void test()
         {
             DPDCloudService.setOrderRequestType mySetOrderRequest = new DPDCloudService.setOrderRequestType();
             DPDCloudService.OrderDataType myOrderData = new DPDCloudService.OrderDataType();
@@ -59,7 +87,8 @@ namespace ConsoleApp3
             myOrderDataList[0] = myOrderData;
             mySetOrderRequest.OrderDataList = myOrderDataList;
 
-            DPDCloudService.DPDCloudService_v1SoapClient myApiSoapClient = new DPDCloudService.DPDCloudService_v1SoapClient();
+            DPDCloudService.DPDCloudService_v1SoapClient myApiSoapClient = 
+                new DPDCloudService.DPDCloudService_v1SoapClient("staging");
             DPDCloudService.setOrderResponseType mySetOrderResponse = new DPDCloudService.setOrderResponseType();
 
             mySetOrderResponse = myApiSoapClient.setOrder(mySetOrderRequest);
@@ -71,7 +100,7 @@ namespace ConsoleApp3
                 string parcelNo = mySetOrderResponse.LabelResponse.LabelDataList[0].ParcelNo;
                 string intID = mySetOrderResponse.LabelResponse.LabelDataList[0].YourInternalID;
 
-                foreach(DPDCloudService.LabelDataType data in mySetOrderResponse.LabelResponse.LabelDataList)
+                foreach (DPDCloudService.LabelDataType data in mySetOrderResponse.LabelResponse.LabelDataList)
                 {
                     parcelNo = data.ParcelNo;
                     intID = data.YourInternalID;
@@ -99,6 +128,7 @@ namespace ConsoleApp3
             }
 
             Console.ReadKey();
+
         }
     }
 }
